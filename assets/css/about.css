@@ -1,0 +1,279 @@
+/* ==========================================================================
+   INS — ABOUT
+   Editorial pairing: large lateral photo with a glass card overlapping its
+   edge, then four real company values below. Hovering a value nudges the
+   shared photo (pan) and crossfades a matching tint layer — both subtle,
+   never a full image swap.
+   ========================================================================== */
+
+.about {
+  background: var(--background);
+}
+
+.about-feature {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: end;
+  gap: var(--space-8);
+  margin-bottom: var(--space-11);
+}
+
+/* ---- Media ---------------------------------------------------------------- */
+
+.about-feature__media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface-elevated);
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 900ms var(--ease);
+}
+
+.about.is-visible .about-feature__media {
+  clip-path: inset(0 0 0% 0);
+}
+
+.about-feature__pan {
+  position: absolute;
+  inset: -14px;
+  --pan-x: 0px;
+  --pan-y: 0px;
+  transform: scale(1.05) translate(var(--pan-x), var(--pan-y));
+  transition: transform 900ms var(--ease);
+}
+
+.about-feature__pan svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Four preset tint layers, crossfaded by JS toggling .is-active — avoids
+   animating gradient colors directly, which browsers can't tween smoothly. */
+.about-feature__tint {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 700ms var(--ease);
+  pointer-events: none;
+}
+
+.about-feature__tint.is-active {
+  opacity: 1;
+}
+
+.about-feature__tint--1 {
+  background: radial-gradient(circle at 30% 25%, rgba(55, 194, 168, 0.22), transparent 60%);
+}
+.about-feature__tint--2 {
+  background: radial-gradient(circle at 70% 30%, rgba(55, 194, 168, 0.2), transparent 60%);
+}
+.about-feature__tint--3 {
+  background: radial-gradient(circle at 30% 75%, rgba(55, 194, 168, 0.2), transparent 60%);
+}
+.about-feature__tint--4 {
+  background: radial-gradient(circle at 70% 75%, rgba(55, 194, 168, 0.22), transparent 60%);
+}
+
+.about-feature__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(5, 6, 8, 0.55) 0%, rgba(5, 6, 8, 0) 45%);
+  pointer-events: none;
+}
+
+/* ---- Overlapping glass card ------------------------------------------------ */
+
+.about-feature__card {
+  position: relative;
+  z-index: 2;
+  margin-left: -72px;
+  margin-bottom: var(--space-9);
+  padding: var(--space-9);
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--dur-cinematic) var(--ease),
+    transform var(--dur-cinematic) var(--ease);
+  transition-delay: 260ms;
+}
+
+.about.is-visible .about-feature__card {
+  opacity: 1;
+  transform: none;
+}
+
+.about-feature__eyebrow {
+  display: inline-block;
+  margin-bottom: var(--space-5);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.about-feature__title {
+  margin-bottom: var(--space-6);
+  font-size: clamp(1.9rem, 3.2vw, 2.75rem);
+  font-weight: var(--fw-medium);
+  line-height: 1.12;
+  letter-spacing: var(--ls-display);
+  color: var(--text-primary);
+}
+
+.about-feature__lead {
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  color: var(--text-secondary);
+}
+
+.about-feature__lead + .about-feature__lead {
+  margin-top: var(--space-4);
+}
+
+/* ---- Principles ------------------------------------------------------------- */
+
+.principles-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.principle-item {
+  padding: var(--space-7) var(--space-6) 0;
+  cursor: default;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--dur-cinematic) var(--ease),
+    transform var(--dur-cinematic) var(--ease),
+    border-color var(--dur-ui) var(--ease);
+  transition-delay: calc(420ms + var(--reveal-index, 0) * 130ms);
+  border-top: 1px solid var(--border-soft);
+}
+
+.about.is-visible .principle-item {
+  opacity: 1;
+  transform: none;
+}
+
+.principle-item + .principle-item {
+  border-left: 1px solid var(--border-soft);
+}
+
+.principle-item:hover,
+.principle-item:focus-within {
+  border-top-color: var(--border-accent);
+}
+
+.principle-item__number {
+  display: block;
+  margin-bottom: var(--space-5);
+  font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+  font-weight: var(--fw-regular);
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--dur-ui) var(--ease);
+}
+
+.principle-item:hover .principle-item__number,
+.principle-item:focus-within .principle-item__number {
+  color: var(--accent-soft);
+}
+
+.principle-item__title {
+  margin-bottom: var(--space-3);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-semi);
+  letter-spacing: -0.018em;
+  color: var(--text-primary);
+}
+
+.principle-item__desc {
+  max-width: 30ch;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+  color: var(--text-secondary);
+}
+
+/* ---- Breakpoints -------------------------------------------------------------- */
+
+@media (max-width: 980px) {
+  .about-feature {
+    grid-template-columns: 1fr;
+  }
+
+  .about-feature__media {
+    aspect-ratio: var(--ar-wide);
+  }
+
+  .about-feature__card {
+    margin-left: 0;
+    margin-top: calc(var(--space-9) * -1);
+    margin-bottom: 0;
+    margin-inline: var(--space-5);
+  }
+
+  .about-feature {
+    margin-bottom: var(--space-9);
+  }
+}
+
+@media (max-width: 760px) {
+  .principles-row {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: var(--space-7);
+  }
+
+  .principle-item:nth-child(2n) {
+    border-left: none;
+  }
+
+  .principle-item:nth-child(3),
+  .principle-item:nth-child(4) {
+    border-top: 1px solid var(--border-soft);
+  }
+}
+
+@media (max-width: 560px) {
+  .about-feature__card {
+    padding: var(--space-7);
+    margin-inline: 0;
+  }
+
+  .principles-row {
+    grid-template-columns: 1fr;
+  }
+
+  .principle-item:nth-child(2n) {
+    border-left: none;
+  }
+
+  .principle-item {
+    border-left: none !important;
+  }
+}
+
+/* ---- Reduced motion --------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .about-feature__media {
+    clip-path: inset(0);
+  }
+
+  .about-feature__card,
+  .principle-item {
+    opacity: 1;
+    transform: none;
+  }
+
+  .about-feature__pan {
+    transform: scale(1.05);
+  }
+}

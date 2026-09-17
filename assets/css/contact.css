@@ -1,0 +1,287 @@
+/* ==========================================================================
+   INS — CONTACT
+   Inputs reuse the design-system .input/.textarea/.select tokens, which
+   already match the spec given (rgba(255,255,255,.04) bg, rgba(255,255,255,.1)
+   border, 16px radius, accent focus glow) — no need to redeclare them here.
+   ========================================================================== */
+
+.contact {
+  background: var(--background);
+}
+
+.contact__layout {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: var(--space-10);
+  align-items: start;
+}
+
+/* ---- Left: intro + real contact info -------------------------------------- */
+
+.contact__eyebrow {
+  display: inline-block;
+  margin-bottom: var(--space-5);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.contact__title {
+  margin-bottom: var(--space-6);
+  font-size: var(--fs-h2); /* AUDIT FIX: was clamp(2rem,3.6vw,3.1rem), smaller than the other 5 section headlines */
+  font-weight: var(--fw-medium);
+  line-height: 1.12;
+  letter-spacing: var(--ls-display);
+  color: var(--text-primary);
+}
+
+.contact__lead {
+  max-width: 44ch;
+  margin-bottom: var(--space-10);
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  color: var(--text-secondary);
+}
+
+.contact__offices {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.contact__office {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-6) 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.contact__office-name {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 2px;
+}
+
+.contact__office-address {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+  color: var(--text-secondary);
+}
+
+.contact__office-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin-top: 4px;
+}
+
+.contact__office-links a {
+  font-size: var(--fs-sm);
+  color: var(--text-primary);
+  transition: color var(--dur-ui) var(--ease);
+}
+
+.contact__office-links a:hover {
+  color: var(--accent-soft);
+}
+
+/* ---- Right: glass form ------------------------------------------------------ */
+
+.contact-form-wrap {
+  padding: var(--space-8);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.contact-form__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+}
+
+.contact-form__grid .field--full {
+  grid-column: 1 / -1;
+}
+
+.field__required {
+  color: var(--accent-soft);
+  margin-left: 2px;
+}
+
+/* Custom chevron on the native select, kept native for accessibility. */
+.select-wrap {
+  position: relative;
+}
+
+.select-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.select-wrap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  width: 9px;
+  height: 9px;
+  border-right: 1.5px solid var(--text-tertiary);
+  border-bottom: 1.5px solid var(--text-tertiary);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+/* Field-level error state */
+.field.has-error .input,
+.field.has-error .textarea,
+.field.has-error .select {
+  border-color: var(--signal-danger);
+}
+
+.field.has-error .input:focus,
+.field.has-error .textarea:focus,
+.field.has-error .select:focus {
+  box-shadow: 0 0 0 3px rgba(212, 87, 78, 0.16);
+}
+
+.field__error {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  color: var(--signal-danger);
+}
+
+.field.has-error .field__error {
+  display: flex;
+}
+
+.contact-form__submit {
+  margin-top: var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.contact-form__submit .btn--primary {
+  --btn-pad-y: 16px;
+  --btn-pad-x: 28px;
+}
+
+.contact-form__submit .btn--primary:disabled {
+  opacity: 0.7;
+}
+
+/* Small inline spinner shown while "sending". */
+.btn__spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(4, 16, 13, 0.35);
+  border-top-color: var(--text-inverse);
+  animation: btn-spin 700ms linear infinite;
+  display: none;
+}
+
+.is-sending .btn__spinner {
+  display: inline-block;
+}
+
+.is-sending .btn__icon,
+.is-sending .contact-form__submit-label {
+  opacity: 0.7;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Status banner: success / error / not-configured, all share one region so
+   only one message is ever visible and screen readers announce it once. */
+.contact-form__status {
+  display: none;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+}
+
+.contact-form__status.is-visible {
+  display: flex;
+}
+
+.contact-form__status--success {
+  background: rgba(55, 194, 168, 0.1);
+  border: 1px solid rgba(55, 194, 168, 0.28);
+  color: var(--text-primary);
+}
+
+.contact-form__status--error,
+.contact-form__status--unconfigured {
+  background: rgba(212, 87, 78, 0.08);
+  border: 1px solid rgba(212, 87, 78, 0.24);
+  color: var(--text-primary);
+}
+
+.contact-form__status a {
+  color: var(--accent-soft);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---- Breakpoints -------------------------------------------------------------- */
+
+@media (max-width: 980px) {
+  .contact__layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-9);
+  }
+
+  .contact__lead {
+    max-width: 60ch;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-form-wrap {
+    padding: var(--space-6);
+  }
+
+  .contact-form__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form__grid .field {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---- Reduced motion -----------------------------------------------------------
+   AUDIT FIX: this was the only stylesheet with no reduced-motion override.
+   The submit spinner is intentionally exempt — it communicates a real,
+   short-lived loading state rather than decorative motion. */
+@media (prefers-reduced-motion: reduce) {
+  .field.has-error .input,
+  .field.has-error .textarea,
+  .field.has-error .select {
+    transition: none;
+  }
+}

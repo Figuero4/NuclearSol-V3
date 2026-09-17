@@ -1,0 +1,240 @@
+/* ==========================================================================
+   INS — PRECISION (post-hero editorial section)
+   Depends on design-system.css and reveal.js for [data-reveal] wiring.
+   ========================================================================== */
+
+.precision {
+  background: var(--background);
+  text-align: center;
+}
+
+.precision__head {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.precision__eyebrow {
+  display: inline-block;
+  margin-bottom: var(--space-5);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity var(--dur-reveal) var(--ease),
+    transform var(--dur-reveal) var(--ease);
+}
+
+.precision__head.is-visible .precision__eyebrow {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Clip-path headline reveal ---------------------------------------- */
+
+.precision__title {
+  margin-bottom: var(--space-7);
+  font-size: var(--fs-h2); /* AUDIT FIX: was clamp(2.2rem,4.6vw,4.1rem), the largest of 3 divergent section-headline sizes on the site */
+  font-weight: var(--fw-medium);
+  line-height: 1.12;
+  letter-spacing: var(--ls-display);
+  color: var(--text-primary);
+}
+
+.precision__line {
+  overflow: hidden;
+}
+
+.precision__line span {
+  display: block;
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(6%);
+  transition: clip-path 900ms var(--ease), transform 900ms var(--ease);
+  transition-delay: calc(var(--line-i, 0) * 130ms);
+}
+
+.precision__head.is-visible .precision__line span {
+  clip-path: inset(0 0 0% 0);
+  transform: none;
+}
+
+.precision__desc {
+  max-width: 62ch;
+  margin-inline: auto;
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-relaxed);
+  color: var(--text-secondary);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity var(--dur-reveal) var(--ease),
+    transform var(--dur-reveal) var(--ease);
+  transition-delay: 420ms;
+}
+
+.precision__head.is-visible .precision__desc {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Progressive draw-on divider --------------------------------------- */
+
+.precision__divider {
+  position: relative;
+  height: 1px;
+  margin-block: var(--space-13) var(--space-11);
+  background: var(--border-soft);
+  overflow: hidden;
+}
+
+.precision__divider::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent) 18%,
+    var(--accent) 82%,
+    transparent
+  );
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1100ms var(--ease);
+  transition-delay: 120ms;
+}
+
+.precision__divider.is-visible::after {
+  transform: scaleX(1);
+}
+
+/* ---- Editorial principles row ------------------------------------------ */
+
+.principles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: left;
+}
+
+.principle {
+  position: relative;
+  padding: 0 var(--space-8);
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(6px);
+  transition: opacity var(--dur-cinematic) var(--ease),
+    transform var(--dur-cinematic) var(--ease),
+    filter var(--dur-cinematic) var(--ease);
+  transition-delay: calc(var(--reveal-index, 0) * 160ms);
+}
+
+.principle.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
+.principle + .principle {
+  border-left: 1px solid var(--border-soft);
+}
+
+/* Editorial asymmetry: each column sits at a slightly different height
+   instead of three identical, aligned boxes. */
+.principle:nth-child(1) {
+  padding-top: 0;
+}
+
+.principle:nth-child(2) {
+  padding-top: var(--space-10);
+}
+
+.principle:nth-child(3) {
+  padding-top: var(--space-6);
+}
+
+.principle__number {
+  display: block;
+  margin-bottom: var(--space-6);
+  font-size: clamp(2.6rem, 4vw, 3.6rem);
+  font-weight: var(--fw-regular);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.principle__title {
+  margin-bottom: var(--space-4);
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-semi);
+  letter-spacing: -0.018em;
+  color: var(--text-primary);
+}
+
+.principle__rule {
+  width: 32px;
+  height: 1px;
+  margin-bottom: var(--space-5);
+  background: var(--accent);
+  opacity: 0.55;
+}
+
+.principle__desc {
+  max-width: 34ch;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+  color: var(--text-secondary);
+}
+
+/* ---- Breakpoints -------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .principles {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-9);
+  }
+
+  .principle {
+    padding: 0 0 var(--space-9);
+    border-left: none !important;
+    border-top: 1px solid var(--border-soft);
+    padding-top: var(--space-8) !important;
+  }
+
+  .principle:first-child {
+    border-top: none;
+    padding-top: 0 !important;
+  }
+
+  .principle__desc {
+    max-width: 52ch;
+  }
+}
+
+@media (max-width: 600px) {
+  .precision__divider {
+    margin-block: var(--space-11) var(--space-9);
+  }
+}
+
+/* ---- Reduced motion ------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .precision__eyebrow,
+  .precision__desc,
+  .principle {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .precision__line span {
+    clip-path: inset(0);
+    transform: none;
+  }
+
+  .precision__divider::after {
+    transform: scaleX(1);
+  }
+}

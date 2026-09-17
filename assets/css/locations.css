@@ -1,0 +1,348 @@
+/* ==========================================================================
+   INS — PROJECTS / LOCATIONS
+   Map markers use CSS :hover/:focus-within so each marker's own glass card
+   needs no JS positioning logic — it lives inside the marker itself and is
+   simply revealed. This also gives keyboard and touch parity for free:
+   tabbing to a marker or tapping it (which moves focus) shows the same card.
+   ========================================================================== */
+
+.locations {
+  background: var(--background);
+}
+
+.locations__layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 30%) 1fr;
+  gap: var(--space-9);
+  align-items: start;
+}
+
+/* ---- Sidebar ------------------------------------------------------------- */
+
+.locations__intro {
+  position: sticky;
+  top: calc(var(--nav-h, 68px) + var(--space-8));
+}
+
+.locations__eyebrow {
+  display: inline-block;
+  margin-bottom: var(--space-5);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.locations__title {
+  margin-bottom: var(--space-6);
+  font-size: var(--fs-h2); /* AUDIT FIX: was clamp(2rem,3.6vw,3.1rem), smaller than the other 5 section headlines */
+  font-weight: var(--fw-medium);
+  line-height: 1.1;
+  letter-spacing: var(--ls-display);
+  color: var(--text-primary);
+}
+
+.locations__desc {
+  max-width: 42ch;
+  margin-bottom: var(--space-9);
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  color: var(--text-secondary);
+}
+
+/* Stats — only figures that are directly published or directly countable
+   from published content (see JS comment header for the source of each). */
+.locations__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.locations__stat {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.locations__stat-value {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-medium);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.locations__stat-label {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+.locations__legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+}
+
+.locations__legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--fs-xs);
+  color: var(--text-tertiary);
+}
+
+.locations__legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.locations__legend-dot--hq {
+  border-radius: 2px;
+  transform: rotate(45deg);
+  background: var(--accent-soft);
+}
+
+/* ---- Map ------------------------------------------------------------------ */
+
+.locations__map-wrap {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  overflow: visible; /* glass cards near the map edge must not clip */
+}
+
+.locations__map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1000 / 560;
+  overflow: visible;
+}
+
+.locations__map svg.map-base {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ---- Marker -------------------------------------------------------------- */
+
+.site {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.site:hover,
+.site:focus-within {
+  z-index: 5;
+}
+
+.site__dot {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.site__dot::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(55, 194, 168, 0.18);
+  transition: transform var(--dur-ui) var(--ease),
+    box-shadow var(--dur-ui) var(--ease);
+}
+
+/* Subtle pulse ring — a second layer so the dot itself stays crisp. */
+.site__dot::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.55;
+  animation: site-pulse 2.8s var(--ease-out-soft) infinite;
+  animation-delay: var(--pulse-delay, 0s);
+}
+
+@keyframes site-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  70%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.site:hover .site__dot::before,
+.site:focus-within .site__dot::before {
+  transform: scale(1.35);
+  box-shadow: 0 0 0 5px rgba(55, 194, 168, 0.24);
+}
+
+/* Headquarters marker: diamond, distinct from project dots. */
+.site--hq .site__dot::before,
+.site--hq .site__dot::after {
+  inset: 6px;
+  border-radius: 3px;
+  transform: rotate(45deg);
+  background: var(--accent-soft);
+}
+
+.site--hq:hover .site__dot::before,
+.site--hq:focus-within .site__dot::before {
+  transform: rotate(45deg) scale(1.3);
+}
+
+.site--hq .site__dot::after {
+  animation: site-pulse-hq 2.8s var(--ease-out-soft) infinite;
+}
+
+@keyframes site-pulse-hq {
+  0% {
+    transform: rotate(45deg) scale(1);
+    opacity: 0.4;
+  }
+  70%,
+  100% {
+    transform: rotate(45deg) scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* ---- Hover card ------------------------------------------------------------ */
+
+.site__card {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 14px);
+  width: max-content;
+  max-width: 240px;
+  padding: var(--space-4) var(--space-5);
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 8px) scale(0.97);
+  transition: opacity var(--dur-ui) var(--ease),
+    transform var(--dur-ui) var(--ease), visibility 0s linear var(--dur-ui);
+  pointer-events: none;
+}
+
+.site:hover .site__card,
+.site:focus-within .site__card {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0) scale(1);
+  transition: opacity var(--dur-ui) var(--ease),
+    transform var(--dur-ui) var(--ease), visibility 0s;
+  pointer-events: auto;
+}
+
+/* Markers near the top of the map flip their card below, so it never gets
+   clipped by the top edge of the section. */
+.site--flip .site__card {
+  bottom: auto;
+  top: calc(100% + 14px);
+  transform: translate(-50%, -8px) scale(0.97);
+}
+
+.site--flip:hover .site__card,
+.site--flip:focus-within .site__card {
+  transform: translate(-50%, 0) scale(1);
+}
+
+.site__card-location {
+  margin-bottom: 2px;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semi);
+  letter-spacing: -0.012em;
+  color: var(--text-primary);
+}
+
+.site__card-client {
+  margin-bottom: var(--space-3);
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+}
+
+.site__card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--accent-soft);
+}
+
+.site__card-link svg {
+  transition: transform var(--dur-ui) var(--ease);
+}
+
+.site__card-link:hover svg {
+  transform: translateX(3px);
+}
+
+/* ---- Breakpoints ------------------------------------------------------------ */
+
+@media (max-width: 980px) {
+  .locations__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .locations__intro {
+    position: static;
+  }
+
+  .locations__desc {
+    max-width: 62ch;
+  }
+}
+
+@media (max-width: 640px) {
+  .site__dot {
+    width: 26px;
+    height: 26px;
+  }
+
+  .site__card {
+    max-width: 200px;
+    padding: var(--space-3) var(--space-4);
+  }
+}
+
+/* ---- Reduced motion ---------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .site__dot::after {
+    animation: none;
+    opacity: 0;
+  }
+}

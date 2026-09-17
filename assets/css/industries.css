@@ -1,0 +1,422 @@
+/* ==========================================================================
+   INS — INDUSTRIES
+   Desktop: glass tablist (left) drives a crossfading stage (right).
+   Mobile: native <details> accordion — same copy, no JS dependency.
+   Both structures share i18n keys; only one is visible per breakpoint.
+   ========================================================================== */
+
+.industries {
+  background: var(--background);
+}
+
+.industries__head {
+  max-width: 720px;
+  margin-bottom: var(--space-11);
+}
+
+.industries__eyebrow {
+  display: inline-block;
+  margin-bottom: var(--space-5);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.industries__title {
+  margin-bottom: var(--space-5);
+  font-size: var(--fs-h2); /* AUDIT FIX: was a hardcoded duplicate of this token's value */
+  font-weight: var(--fw-medium);
+  line-height: 1.1;
+  letter-spacing: var(--ls-display);
+  color: var(--text-primary);
+}
+
+.industries__sub {
+  max-width: 52ch;
+  font-size: var(--fs-body-lg);
+  color: var(--text-secondary);
+  line-height: var(--lh-relaxed);
+}
+
+/* ---- Interactive shell -------------------------------------------------- */
+
+.industries-interactive {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: var(--space-7);
+  align-items: start;
+}
+
+/* ---- Nav (glass tablist) -------------------------------------------------- */
+
+.industries-nav {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3);
+  position: sticky;
+  top: calc(var(--nav-h, 68px) + var(--space-6));
+}
+
+.industries-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  padding: 18px 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--dur-ui) var(--ease),
+    border-color var(--dur-ui) var(--ease);
+}
+
+.industries-trigger + .industries-trigger {
+  margin-top: 2px;
+}
+
+.industries-trigger__index {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--dur-ui) var(--ease);
+}
+
+.industries-trigger__label {
+  flex: 1;
+  font-size: var(--fs-body-lg);
+  font-weight: var(--fw-medium);
+  letter-spacing: -0.018em;
+  color: var(--text-secondary);
+  transition: color var(--dur-ui) var(--ease);
+}
+
+/* Animated horizontal indicator: grows from 0 under the active label. */
+.industries-trigger__bar {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 9px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: opacity var(--dur-ui) var(--ease),
+    transform 480ms var(--ease);
+}
+
+.industries-trigger:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.industries-trigger:hover .industries-trigger__label {
+  color: var(--text-primary);
+}
+
+.industries-trigger.is-active {
+  background: rgba(255, 255, 255, 0.055);
+  border-color: var(--border-accent);
+}
+
+.industries-trigger.is-active .industries-trigger__index,
+.industries-trigger.is-active .industries-trigger__label {
+  color: var(--text-primary);
+}
+
+.industries-trigger.is-active .industries-trigger__bar {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* ---- Stage (desktop crossfade) -------------------------------------------- */
+
+.industries-stage {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.industries-stage__media {
+  position: relative;
+  aspect-ratio: var(--ar-wide);
+  background: var(--surface-elevated);
+}
+
+.industries-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.03);
+  filter: blur(10px);
+  transition: opacity 560ms var(--ease), transform 560ms var(--ease),
+    filter 560ms var(--ease);
+}
+
+.industries-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+  z-index: 1;
+}
+
+.industries-slide svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.industries-stage__body {
+  position: relative;
+  min-height: 15rem;
+  padding: var(--space-8);
+}
+
+.industries-copy {
+  position: absolute;
+  inset: 0;
+  padding: var(--space-8);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 480ms var(--ease), transform 480ms var(--ease);
+  pointer-events: none;
+}
+
+.industries-copy.is-active {
+  position: relative;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition-delay: 90ms;
+}
+
+.industries-copy__title {
+  margin-bottom: var(--space-4);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-semi);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.industries-copy__desc {
+  max-width: 60ch;
+  margin-bottom: var(--space-6);
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  color: var(--text-secondary);
+}
+
+.industries-copy__locations {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border-soft);
+}
+
+.industries-copy__locations-label {
+  margin-bottom: var(--space-3);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.industries-copy__location {
+  font-size: var(--fs-sm);
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+.industries-copy__location strong {
+  font-weight: var(--fw-medium);
+  color: var(--text-primary);
+}
+
+/* ---- Mobile accordion (native <details>) ---------------------------------- */
+
+.industries-accordion {
+  display: none;
+}
+
+.industries-acc-item {
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.industries-acc-item:first-child {
+  border-top: 1px solid var(--border-soft);
+}
+
+.industries-acc-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--space-1);
+  cursor: pointer;
+  list-style: none;
+}
+
+.industries-acc-summary::-webkit-details-marker {
+  display: none;
+}
+
+.industries-acc-index {
+  font-size: var(--fs-xs);
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.industries-acc-label {
+  flex: 1;
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-semi);
+  color: var(--text-primary);
+}
+
+.industries-acc-plus {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+.industries-acc-plus::before,
+.industries-acc-plus::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--text-secondary);
+  transition: transform var(--dur-ui) var(--ease);
+}
+
+.industries-acc-plus::before {
+  width: 14px;
+  height: 1.4px;
+  transform: translate(-50%, -50%);
+}
+
+.industries-acc-plus::after {
+  width: 1.4px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+}
+
+.industries-acc-item[open] .industries-acc-plus::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  opacity: 0;
+}
+
+.industries-acc-body {
+  padding: 0 var(--space-1) var(--space-7);
+}
+
+.industries-acc-media {
+  aspect-ratio: var(--ar-wide);
+  margin-bottom: var(--space-5);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface-elevated);
+}
+
+.industries-acc-media svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.industries-acc-desc {
+  margin-bottom: var(--space-5);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+  color: var(--text-secondary);
+}
+
+.industries-acc-locations {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-soft);
+}
+
+.industries-acc-locations-label {
+  margin-bottom: var(--space-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.industries-acc-location {
+  font-size: var(--fs-sm);
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+.industries-acc-location strong {
+  font-weight: var(--fw-medium);
+  color: var(--text-primary);
+}
+
+/* Smooth open/close for browsers that support it; falls back to instant
+   show/hide (native <details> behaviour) elsewhere. */
+@media (prefers-reduced-motion: no-preference) {
+  .industries-acc-item {
+    interpolate-size: allow-keywords;
+  }
+}
+
+/* ---- Breakpoint: accordion takes over ------------------------------------- */
+
+@media (max-width: 899px) {
+  .industries-nav,
+  .industries-stage {
+    display: none;
+  }
+
+  .industries-accordion {
+    display: block;
+  }
+}
+
+@media (min-width: 900px) {
+  .industries-accordion {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1140px) {
+  .industries-interactive {
+    grid-template-columns: 280px 1fr;
+  }
+
+  .industries-trigger__label {
+    font-size: var(--fs-body);
+  }
+}
+
+/* ---- Reduced motion --------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .industries-slide {
+    transition: opacity 1ms linear;
+    transform: none;
+    filter: none;
+  }
+
+  .industries-copy {
+    transition: opacity 1ms linear;
+    transform: none;
+  }
+}

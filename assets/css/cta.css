@@ -1,0 +1,110 @@
+/* ==========================================================================
+   INS — CTA (pre-footer)
+   Closing moment of the page: dark, centered, quiet. Sequence on scroll-in
+   is glow → line → headline → subheadline → button, each a fixed delay on
+   the shared .reveal utility so the order reads deliberately without any
+   scroll-linked JS.
+   ========================================================================== */
+
+.cta {
+  position: relative;
+  overflow: hidden;
+  background: var(--background);
+  text-align: center;
+}
+
+/* Extremely subtle radial glow — opacity only, no motion, so it never
+   competes with the headline for attention. */
+.cta__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(1100px, 130vw);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(55, 194, 168, 0.1) 0%,
+    rgba(55, 194, 168, 0.035) 42%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 1400ms var(--ease);
+  pointer-events: none;
+}
+
+.cta__glow.is-visible {
+  opacity: 1;
+}
+
+.cta__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.cta__line {
+  width: 40px;
+  height: 2px;
+  margin: 0 auto var(--space-7);
+  background: var(--accent);
+  transform: scaleX(0);
+  opacity: 0;
+  transition: transform 700ms var(--ease), opacity 700ms var(--ease);
+}
+
+.cta__line.is-visible {
+  transform: scaleX(1);
+  opacity: 0.85;
+}
+
+.cta__title {
+  margin-bottom: var(--space-6);
+  font-size: clamp(2rem, 4.4vw, 3.6rem);
+  font-weight: var(--fw-medium);
+  line-height: 1.14;
+  letter-spacing: var(--ls-display);
+  color: var(--text-primary);
+}
+
+.cta__sub {
+  max-width: 48ch;
+  margin-inline: auto;
+  margin-bottom: var(--space-9);
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-relaxed);
+  color: var(--text-secondary);
+}
+
+.cta__action {
+  display: inline-flex;
+}
+
+.cta__action .btn--primary {
+  --btn-pad-y: 19px;
+  --btn-pad-x: 34px;
+  font-size: var(--fs-body);
+}
+
+/* ---- Breakpoints ------------------------------------------------------------- */
+
+@media (max-width: 560px) {
+  .cta__action {
+    width: 100%;
+  }
+
+  .cta__action .btn--primary {
+    width: 100%;
+  }
+}
+
+/* ---- Reduced motion ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .cta__glow,
+  .cta__line {
+    opacity: 1;
+    transform: none;
+  }
+}

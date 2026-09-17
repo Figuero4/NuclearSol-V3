@@ -1,0 +1,260 @@
+/* ==========================================================================
+   INS — FOOTER
+   Background word is a decorative layer: aria-hidden, non-interactive,
+   opacity low enough to read as texture rather than a second heading.
+   ========================================================================== */
+
+.site-footer {
+  position: relative;
+  overflow: hidden;
+  background: #030405;
+  border-top: 1px solid var(--border-soft);
+  padding-top: var(--space-12);
+}
+
+/* ---- Giant background wordmark -------------------------------------------- */
+
+.site-footer__mark {
+  position: absolute;
+  left: 50%;
+  bottom: -6%;
+  z-index: 0;
+  transform: translate(-50%, var(--mark-shift, 0px));
+  font-size: clamp(9rem, 26vw, 22rem);
+  font-weight: var(--fw-semi);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--text-primary);
+  opacity: 0.028;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+
+/* ---- Top row: logo + description ------------------------------------------- */
+
+.site-footer__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.site-footer__top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-8);
+  padding-bottom: var(--space-10);
+  border-bottom: 1px solid var(--border-soft);
+
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--dur-cinematic) var(--ease),
+    transform var(--dur-cinematic) var(--ease);
+}
+
+.site-footer.is-visible .site-footer__top {
+  opacity: 1;
+  transform: none;
+}
+
+.site-footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.site-footer__mark-icon {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  color: var(--accent);
+}
+
+.site-footer__wordmark {
+  font-size: 1.2rem;
+  font-weight: var(--fw-semi);
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+.site-footer__desc {
+  max-width: 30ch;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-relaxed);
+  color: var(--text-secondary);
+}
+
+/* ---- Columns ---------------------------------------------------------------- */
+
+.site-footer__columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  padding-block: var(--space-10);
+}
+
+.footer-col {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--dur-cinematic) var(--ease),
+    transform var(--dur-cinematic) var(--ease);
+  transition-delay: calc(140ms + var(--col-i, 0) * 110ms);
+}
+
+.site-footer.is-visible .footer-col {
+  opacity: 1;
+  transform: none;
+}
+
+.footer-col__title {
+  margin-bottom: var(--space-5);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.footer-col__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.footer-col__list a {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  transition: color var(--dur-ui) var(--ease);
+}
+
+.footer-col__list a:hover {
+  color: var(--text-primary);
+}
+
+.footer-col--contact address {
+  font-style: normal;
+}
+
+.footer-col--contact .footer-col__list {
+  gap: var(--space-2);
+}
+
+/* ---- Bottom bar --------------------------------------------------------------- */
+
+.site-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-6);
+  border-top: 1px solid var(--border-soft);
+
+  opacity: 0;
+  transition: opacity var(--dur-cinematic) var(--ease);
+  transition-delay: 520ms;
+}
+
+.site-footer.is-visible .site-footer__bottom {
+  opacity: 1;
+}
+
+.site-footer__copyright {
+  font-size: var(--fs-xs);
+  color: var(--text-tertiary);
+}
+
+.site-footer__legal {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.site-footer__legal a {
+  font-size: var(--fs-xs);
+  color: var(--text-tertiary);
+  transition: color var(--dur-ui) var(--ease);
+}
+
+.site-footer__legal a:hover {
+  color: var(--text-secondary);
+}
+
+/* ---- Mobile accordion (link columns only — contact stays open) --------------- */
+
+.footer-col--links summary {
+  list-style: none;
+  cursor: default;
+}
+
+.footer-col--links summary::-webkit-details-marker,
+.footer-col--links summary::marker {
+  display: none;
+  content: "";
+}
+
+@media (min-width: 641px) {
+  .footer-col--links summary {
+    pointer-events: none;
+  }
+}
+
+.footer-acc-toggle {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .site-footer__columns {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-block: var(--space-4);
+  }
+
+  .footer-col--links {
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .footer-col--links .footer-col__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0;
+    padding: var(--space-5) 0;
+    cursor: pointer;
+  }
+
+  .footer-col--links .footer-col__title::after {
+    content: "+";
+    font-size: 1rem;
+    color: var(--text-tertiary);
+    transition: transform var(--dur-ui) var(--ease);
+  }
+
+  .footer-col--links[open] .footer-col__title::after {
+    transform: rotate(45deg);
+  }
+
+  .footer-col--links .footer-col__list {
+    padding-bottom: var(--space-5);
+  }
+
+  .footer-col--contact {
+    padding-top: var(--space-6);
+  }
+}
+
+/* ---- Reduced motion ------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .site-footer__top,
+  .footer-col,
+  .site-footer__bottom {
+    opacity: 1;
+    transform: none;
+  }
+
+  .site-footer__mark {
+    transform: translate(-50%, 0);
+  }
+}
