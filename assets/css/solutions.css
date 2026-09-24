@@ -152,15 +152,19 @@
   height: auto;
 }
 
+.solution__media img,
 .solution__media svg {
   width: 100%;
   height: 100%;
   display: block;
+  object-fit: cover;
   transform: scale(var(--media-scale));
   transition: transform 700ms var(--ease);
 }
 
+.solution:hover .solution__media img,
 .solution:hover .solution__media svg,
+.solution:focus-within .solution__media img,
 .solution:focus-within .solution__media svg {
   --media-scale: 1.05;
 }

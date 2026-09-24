@@ -47,7 +47,15 @@
         "solutions.s7.desc":
           "Engineering support for mission critical construction projects, including data centers, executed with the same rigor as nuclear facility work.",
 
-        "solutions.arrow": "Learn more"
+        "solutions.arrow": "Learn more",
+
+        "solutions.s1.alt": "Technician in protective gear performing radiation protection work at a nuclear facility",
+        "solutions.s2.alt": "Nuclear industry technicians working on site",
+        "solutions.s3.alt": "Technician performing surface decontamination on industrial equipment",
+        "solutions.s4.alt": "Radioactive waste containers staged for handling and storage",
+        "solutions.s5.alt": "Laboratory technician using radiological monitoring instrumentation",
+        "solutions.s6.alt": "Non-destructive testing inspection of an industrial component",
+        "solutions.s7.alt": "Construction of a mission-critical data center facility"
       },
 
       es: {
@@ -87,7 +95,15 @@
         "solutions.s7.desc":
           "Ingeniería para proyectos de construcción de misión crítica, incluyendo centros de datos, ejecutados con el mismo rigor que el trabajo en plantas nucleares.",
 
-        "solutions.arrow": "Conocer más"
+        "solutions.arrow": "Conocer más",
+
+        "solutions.s1.alt": "Técnico con equipo de protección realizando trabajo de protección radiológica en una central nuclear",
+        "solutions.s2.alt": "Técnicos de la industria nuclear trabajando en sitio",
+        "solutions.s3.alt": "Técnico realizando descontaminación de superficie en equipo industrial",
+        "solutions.s4.alt": "Contenedores de residuos radiactivos preparados para manejo y almacenamiento",
+        "solutions.s5.alt": "Técnico de laboratorio utilizando instrumentación de monitoreo radiológico",
+        "solutions.s6.alt": "Inspección de pruebas no destructivas en un componente industrial",
+        "solutions.s7.alt": "Construcción de una instalación de misión crítica tipo centro de datos"
       }
     });
   }

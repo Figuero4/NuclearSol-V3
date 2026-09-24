@@ -106,7 +106,12 @@
         "industries.missioncritical.label": "Mission Critical Buildout",
         "industries.missioncritical.title": "Mission Critical Buildout",
         "industries.missioncritical.desc":
-          "INS identifies, vets, places and manages qualified civil, mechanical, electrical and structural engineers into active construction roles supporting energy-sector and mission-critical data center projects across the United States — from field engineering and MEP coordination to safety and quality control."
+          "INS identifies, vets, places and manages qualified civil, mechanical, electrical and structural engineers into active construction roles supporting energy-sector and mission-critical data center projects across the United States — from field engineering and MEP coordination to safety and quality control.",
+
+        "industries.nuclear.alt": "Nuclear power generating facility",
+        "industries.government.alt": "Government facility supported by INS services",
+        "industries.industrial.alt": "Industrial facility and private sector operations",
+        "industries.missioncritical.alt": "Mission-critical construction site, including data center buildout"
       },
 
       es: {
@@ -142,7 +147,12 @@
         "industries.missioncritical.label": "Construcción de Misión Crítica",
         "industries.missioncritical.title": "Construcción de Misión Crítica",
         "industries.missioncritical.desc":
-          "INS identifica, evalúa, coloca y gestiona ingenieros civiles, mecánicos, eléctricos y estructurales calificados en roles activos de construcción, dando soporte a proyectos del sector energético y centros de datos de misión crítica en todo Estados Unidos — desde ingeniería de campo y coordinación MEP hasta seguridad y control de calidad."
+          "INS identifica, evalúa, coloca y gestiona ingenieros civiles, mecánicos, eléctricos y estructurales calificados en roles activos de construcción, dando soporte a proyectos del sector energético y centros de datos de misión crítica en todo Estados Unidos — desde ingeniería de campo y coordinación MEP hasta seguridad y control de calidad.",
+
+        "industries.nuclear.alt": "Instalación de generación de energía nuclear",
+        "industries.government.alt": "Instalación gubernamental con soporte de servicios de INS",
+        "industries.industrial.alt": "Instalación industrial y operaciones del sector privado",
+        "industries.missioncritical.alt": "Sitio de construcción de misión crítica, incluyendo un centro de datos"
       }
     });
   }

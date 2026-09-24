@@ -1,0 +1,30 @@
+/* ==========================================================================
+   INS — PARTICLES (global ambient background)
+   Fixed canvas sitting behind every section. Works because the background/
+   surface tokens in design-system.css carry slight transparency (~95%
+   opacity) — this canvas is what shows through that gap. See the comment
+   on the html/body rules in design-system.css for the stacking approach.
+   ========================================================================== */
+
+.particles-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Dark-mode only — a glowing teal drift reads as ambient energy against the
+   site's dark surfaces; against the light theme's white surfaces the same
+   effect would just look like screen noise, not a deliberate choice. */
+:root[data-theme="light"] .particles-canvas {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .particles-canvas {
+    display: none;
+  }
+}

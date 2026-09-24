@@ -45,7 +45,15 @@
 
         "technology.t7.title": "Specialized Tools & Parts for the Nuclear Industry",
         "technology.t7.desc":
-          "Specialized tools and parts sourced and supplied for the specific demands of nuclear facility maintenance and operations."
+          "Specialized tools and parts sourced and supplied for the specific demands of nuclear facility maintenance and operations.",
+
+        "technology.t1.alt": "ALARA radiation protection tools and equipment",
+        "technology.t2.alt": "Video and audio monitoring equipment used in nuclear facilities",
+        "technology.t3.alt": "Radiological instrumentation and monitoring software display",
+        "technology.t4.alt": "Remote monitoring technology used to observe restricted areas",
+        "technology.t5.alt": "Personal protective equipment for nuclear facility work",
+        "technology.t6.alt": "Decontamination resins used in liquid processing",
+        "technology.t7.alt": "Specialized tools and parts for nuclear industry maintenance"
       },
 
       es: {
@@ -82,7 +90,15 @@
 
         "technology.t7.title": "Herramientas y Partes Especializadas para la Industria Nuclear",
         "technology.t7.desc":
-          "Herramientas y partes especializadas, obtenidas y suministradas para las exigencias específicas del mantenimiento y la operación de instalaciones nucleares."
+          "Herramientas y partes especializadas, obtenidas y suministradas para las exigencias específicas del mantenimiento y la operación de instalaciones nucleares.",
+
+        "technology.t1.alt": "Herramientas y equipo de protección radiológica ALARA",
+        "technology.t2.alt": "Equipo de video y audio utilizado en instalaciones nucleares",
+        "technology.t3.alt": "Pantalla de instrumentación y software de monitoreo radiológico",
+        "technology.t4.alt": "Tecnología de monitoreo remoto utilizada para observar áreas restringidas",
+        "technology.t5.alt": "Equipo de protección personal para trabajo en instalaciones nucleares",
+        "technology.t6.alt": "Resinas de descontaminación utilizadas en procesamiento de líquidos",
+        "technology.t7.alt": "Herramientas y partes especializadas para mantenimiento de la industria nuclear"
       }
     });
   }

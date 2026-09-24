@@ -1,7 +1,24 @@
-# INS — Design System & Navbar
+# INS — Design System & Full Site
 
-Foundation layer for the International Nuclear Solutions site. No framework, no
-build step. `build.py` only flattens everything into one file for preview.
+Foundation layer and complete build for the International Nuclear Solutions
+site. No framework, no build step. `build.py` only flattens everything into
+one file for preview.
+
+## What's built
+
+- Navbar with scroll-progressive glass capsule, language switch (EN/ES),
+  light/dark theme toggle, mobile menu.
+- Hero with real video background (`assets/media/hero.mp4`).
+- Precision, Solutions, Industries (interactive tabbed panel), Locations
+  (real US map with 13 documented project sites + HQ), Technology, About,
+  CTA, Contact (validated form, no fake submission), Footer.
+- Global ambient particle background (dark mode only, `assets/js/particles.js`).
+- Full bilingual i18n system, WCAG AA-audited, responsive 375px–1440px+.
+
+See `GUIA-FOTOS-REALES.md` (if present in your copy) for the 19 photo slots
+still using placeholder illustrations, with exact file paths and search
+terms for real photography.
+
 
 ## Deploying this site
 

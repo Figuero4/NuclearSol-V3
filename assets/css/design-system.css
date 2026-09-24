@@ -10,10 +10,15 @@
 
 :root {
   /* ---- Surface & background ---- */
-  --background: #050608;
-  --surface: #0b0d10;
-  --surface-elevated: #111419;
-  --surface-sunken: #030405;
+  /* Slight transparency (not fully opaque hex) so the fixed particle canvas
+     (particles.js) shows through subtly behind every section. Verified this
+     doesn't meaningfully change contrast — the canvas backdrop is itself
+     near-black, so the composite reads as the same color except where a
+     particle's glow sits directly behind it. */
+  --background: rgba(5, 6, 8, 0.95);
+  --surface: rgba(11, 13, 16, 0.95);
+  --surface-elevated: rgba(17, 20, 25, 0.95);
+  --surface-sunken: rgba(3, 4, 5, 0.95);
 
   /* ---- Text ---- */
   --text-primary: #f5f7fa;
@@ -25,12 +30,14 @@
   --accent: #37c2a8;
   --accent-soft: #6fe3cc;
   --accent-deep: #1f8c78;
+  --accent-text: var(--accent-soft); /* text/link color — themed separately because the base accent fails AA contrast as text on light backgrounds */
   --accent-wash: rgba(55, 194, 168, 0.12);
   --accent-glow: rgba(55, 194, 168, 0.28);
 
   /* ---- Signal colors (status, forms, validation) ---- */
   --signal-warning: #d8a33c;
   --signal-danger: #d4574e;
+  --signal-danger-text: var(--signal-danger); /* error message text — needs 4.5:1, themed separately from the border/icon usage which only needs 3:1 */
 
   /* ---- Borders ---- */
   --border: rgba(255, 255, 255, 0.1);
@@ -46,6 +53,13 @@
   --glass-blur-sm: 14px;
   --glass-highlight: rgba(255, 255, 255, 0.14);
   --nav-glass: rgba(10, 12, 15, 0.72);
+
+  /* Subtle interactive fills for small chrome elements (lang switch, icon
+     buttons) — same idea as glass-bg but without blur, so they need their
+     own theme-aware pair rather than borrowing the glass tokens. */
+  --chip-bg: rgba(255, 255, 255, 0.04);
+  --chip-bg-strong: rgba(255, 255, 255, 0.1);
+  --overlay-scrim: rgba(5, 6, 8, 0.86); /* full-screen panels (mobile menu) — chrome, not photo, so it must flip with theme */
 
   /* ---- Radii ---- */
   --radius-xl: 28px; /* primary cards, hero panels */
@@ -138,6 +152,57 @@
   --ar-cinema: 21 / 9;
 }
 
+/* --------------------------------------------------------------------------
+   1B. LIGHT THEME
+   Toggled via [data-theme="light"] on <html> (see theme.js). Every value
+   below was checked against WCAG AA (4.5:1 for text) before use — this is
+   not the dark palette inverted blindly. Media (SVG scenes, photography)
+   is intentionally NOT re-themed here: a photograph doesn't change color
+   when a site switches theme, and every media panel already sits inside
+   its own dark frame regardless of the surrounding theme.
+   -------------------------------------------------------------------------- */
+
+:root[data-theme="light"] {
+  --background: #f7f8f9;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-sunken: #eceeef;
+
+  --text-primary: #0c1013;
+  --text-secondary: #4b535c;
+  --text-tertiary: #616b77; /* 5.1–5.4:1 against background/surface — verified, not eyeballed */
+  --text-inverse: #04100d;
+
+  --accent-text: #177566; /* the base --accent (#37c2a8) is only ~2.1:1 on white — too low for text; this is a darker in-family teal that clears 5.2:1+ */
+  --accent-wash: rgba(31, 140, 120, 0.1);
+  --accent-glow: rgba(31, 140, 120, 0.22);
+
+  --border: rgba(10, 14, 17, 0.1);
+  --border-soft: rgba(10, 14, 17, 0.06);
+  --border-strong: rgba(10, 14, 17, 0.16);
+  --border-accent: rgba(23, 117, 102, 0.35);
+
+  --glass-bg: rgba(10, 14, 17, 0.035);
+  --glass-bg-strong: rgba(10, 14, 17, 0.055);
+  --glass-border: rgba(10, 14, 17, 0.1);
+  --glass-highlight: rgba(10, 14, 17, 0.08);
+  --nav-glass: rgba(255, 255, 255, 0.78);
+  --chip-bg: rgba(10, 14, 17, 0.035);
+  --chip-bg-strong: rgba(10, 14, 17, 0.08);
+  --overlay-scrim: rgba(247, 248, 249, 0.88);
+  --signal-danger-text: #ad3f37; /* #d4574e only clears 3.98:1 on light backgrounds — enough for the border, not for text */
+
+  --shadow-sm: 0 2px 8px rgba(15, 23, 27, 0.08);
+  --shadow-md: 0 12px 32px rgba(15, 23, 27, 0.1);
+  --shadow-lg: 0 28px 70px rgba(15, 23, 27, 0.14);
+  --shadow-nav: 0 12px 32px rgba(15, 23, 27, 0.12);
+  --shadow-accent: 0 8px 26px rgba(23, 117, 102, 0.18);
+}
+
+html[data-theme="light"] {
+  background: #f7f8f9; /* matches the html safety-backdrop rule in the reset */
+}
+
 @media (max-width: 768px) {
   :root {
     --gutter: 22px;
@@ -165,9 +230,14 @@ html {
   scroll-behavior: smooth;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  background: #050608; /* solid safety base — body itself stays transparent so the particle canvas (z-index:-1) shows through */
+}
+
 body {
   margin: 0;
-  background-color: var(--background);
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-size: var(--fs-body);
@@ -317,7 +387,7 @@ textarea {
   color: var(--text-secondary);
 }
 .text-accent {
-  color: var(--accent-soft);
+  color: var(--accent-text);
 }
 
 /* --------------------------------------------------------------------------
@@ -411,7 +481,7 @@ textarea {
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glass-card {
-    background: rgba(17, 20, 25, 0.94);
+    background: var(--surface-elevated);
   }
 }
 
@@ -500,8 +570,8 @@ textarea {
 }
 
 .btn--secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.28);
+  background: var(--chip-bg);
+  border-color: var(--border-strong);
 }
 
 /* Glass — sits on imagery or elevated surfaces. */
@@ -553,7 +623,7 @@ textarea {
 .select {
   width: 100%;
   padding: 15px 16px;
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--chip-bg); /* AUDIT FIX: was hardcoded rgba(255,255,255,.035) — invisible against a white surface in light mode */
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   color: var(--text-primary);
@@ -578,7 +648,7 @@ textarea {
 .textarea:focus,
 .select:focus {
   border-color: var(--border-accent);
-  background: rgba(255, 255, 255, 0.055);
+  background: var(--glass-bg-strong);
   box-shadow: 0 0 0 3px var(--accent-wash);
   outline: none;
 }

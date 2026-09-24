@@ -34,7 +34,9 @@
 
         "about.p4.title": "Detail-Oriented Work",
         "about.p4.desc":
-          "Precision and thoroughness in everything INS does, holding every engagement to the highest standard."
+          "Precision and thoroughness in everything INS does, holding every engagement to the highest standard.",
+
+        "about.media.alt": "INS technicians and control room operations"
       },
 
       es: {
@@ -60,7 +62,9 @@
 
         "about.p4.title": "Trabajo Detallado",
         "about.p4.desc":
-          "Precisión y minuciosidad en todo lo que hace INS, manteniendo cada proyecto en el más alto estándar."
+          "Precisión y minuciosidad en todo lo que hace INS, manteniendo cada proyecto en el más alto estándar.",
+
+        "about.media.alt": "Técnicos de INS y operaciones de sala de control"
       }
     });
   }

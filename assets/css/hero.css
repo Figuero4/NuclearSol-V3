@@ -51,16 +51,16 @@
   z-index: -1;
   background: linear-gradient(
       90deg,
-      rgba(5, 6, 8, 0.94) 0%,
-      rgba(5, 6, 8, 0.74) 34%,
-      rgba(5, 6, 8, 0.34) 64%,
-      rgba(5, 6, 8, 0.52) 100%
+      rgba(5, 6, 8, 0.95) 0%,
+      rgba(5, 6, 8, 0.8) 34%,
+      rgba(5, 6, 8, 0.48) 64%,
+      rgba(5, 6, 8, 0.58) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(5, 6, 8, 0.82) 0%,
-      rgba(5, 6, 8, 0.24) 34%,
-      rgba(5, 6, 8, 0.72) 82%,
+      rgba(5, 6, 8, 0.84) 0%,
+      rgba(5, 6, 8, 0.38) 34%,
+      rgba(5, 6, 8, 0.8) 82%,
       var(--background) 100%
     );
   pointer-events: none;
@@ -210,9 +210,9 @@
   .hero__overlay {
     background: linear-gradient(
       180deg,
-      rgba(5, 6, 8, 0.78) 0%,
-      rgba(5, 6, 8, 0.38) 30%,
-      rgba(5, 6, 8, 0.82) 74%,
+      rgba(5, 6, 8, 0.82) 0%,
+      rgba(5, 6, 8, 0.48) 30%,
+      rgba(5, 6, 8, 0.86) 74%,
       var(--background) 100%
     );
   }

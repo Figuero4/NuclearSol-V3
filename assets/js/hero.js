@@ -45,9 +45,29 @@
     });
   }
 
+  var video = hero.querySelector("[data-hero-video]");
   var img = hero.querySelector(".hero__media img");
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (img && !img.complete) {
+  if (video) {
+    // A moving background is exactly the kind of motion this preference
+    // asks sites to avoid — show the poster frame as a static image instead.
+    if (reduceMotion) {
+      video.removeAttribute("autoplay");
+      video.pause();
+      video.removeAttribute("loop");
+    }
+
+    if (video.readyState >= 2) {
+      start();
+    } else {
+      video.addEventListener("loadeddata", start, { once: true });
+      video.addEventListener("error", start, { once: true });
+      // Don't hold the page hostage to a slow asset — the poster frame
+      // covers this window regardless.
+      window.setTimeout(start, 1800);
+    }
+  } else if (img && !img.complete) {
     img.addEventListener("load", start, { once: true });
     img.addEventListener("error", start, { once: true });
     // Don't hold the page hostage to a slow asset.

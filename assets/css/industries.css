@@ -112,7 +112,7 @@
 }
 
 .industries-trigger:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--glass-bg);
 }
 
 .industries-trigger:hover .industries-trigger__label {
@@ -120,7 +120,7 @@
 }
 
 .industries-trigger.is-active {
-  background: rgba(255, 255, 255, 0.055);
+  background: var(--glass-bg-strong);
   border-color: var(--border-accent);
 }
 
@@ -168,10 +168,12 @@
   z-index: 1;
 }
 
+.industries-slide img,
 .industries-slide svg {
   width: 100%;
   height: 100%;
   display: block;
+  object-fit: cover;
 }
 
 .industries-stage__body {
